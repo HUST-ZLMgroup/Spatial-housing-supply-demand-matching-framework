@@ -26,11 +26,11 @@ housing-vacancy-carbon/
 │
 ├── src/
 │   ├── 00_preprocess/          # Building data preprocessing
-│   ├── 01_hvr/                 # Housing Vacancy Rate estimation (§4.1)
-│   ├── 02_sdmi/                # Supply-demand mismatch (§4.3)
-│   ├── 03_carbon/              # Carbon emission projection (§4.4)
-│   ├── 04_causal/              # Causal analysis & sensitivity (§4.5)
-│   ├── 05_optimization/        # Multi-objective optimization (§4.6)
+│   ├── 01_hvr/                 # Housing Vacancy Rate estimation
+│   ├── 02_sdmi/                # Supply-demand mismatch
+│   ├── 03_carbon/              # Carbon emission projection
+│   ├── 04_causal/              # Causal analysis & sensitivity
+│   ├── 05_optimization/        # Multi-objective optimization 
 │   └── utils/                  # Shared utilities (ArcPy env management)
 │
 ├── scripts/                    # Entry-point scripts (run in order)
@@ -41,26 +41,11 @@ housing-vacancy-carbon/
 │   ├── run_04_causal.py
 │   └── run_05_optimization.py
 │
-├── output/                     # All outputs (not tracked by git)
+├── result/                  
 ├── .gitignore
-├── requirements.txt
 └── README.md
 ```
 
----
-
-## Methods Summary
-
-| Module | Paper Section | Method | Key Output |
-|--------|--------------|--------|------------|
-| `00_preprocess` | — | ArcPy merge + 3σ outlier removal | Cleaned building GDB per province |
-| `01_hvr` | §4.1 | Geometric mean of NTL / POI / Road density → county-level threshold | `HVR_b` per building |
-| `02_sdmi` | §4.3 | Rigid + improvement + renewal demand; potential supply = Bldg_area × HVR × correction | `SDMI` at 10 km grid |
-| `03_carbon` | §4.4 | XGBoost forecast (supply / demand / new_area) + 5-year rolling carbon (Eq.16) | Carbon emission CSV per SSP |
-| `04_causal` | §4.5 | DirectLiNGAM + Bootstrap; OAT sensitivity (Eq.15); Sobol variance decomposition (Eqs.16–17) | Causal graph, S1/ST indices |
-| `05_optimization` | §4.6 | NSGA-II (4-objective); 5 governance strategies; linear ramp intervention (Eq.18) | Pareto front, optimal policy rates |
-
----
 
 ### Spatial modules (00–02, require ArcGIS Pro)
 
@@ -160,23 +145,6 @@ Available strategies: `infrastructure`, `social`, `economic`, `environment`, `co
 
 ---
 
-## Key Equations
-
-| Equation | Description |
-|----------|-------------|
-| Eq. 2 | AI = (NTL × POI × Road)^(1/3) — Geometric mean activity index |
-| Eq. 3 | threshold_c = mean(AI_c) + 2σ — County-level local threshold |
-| Eq. 4 | HVR_b = max(0, min(1, 1 − AI_b / threshold_c)) |
-| Eq. 5 | Total_Dem = Rigid + Improvement + Renewal demand |
-| Eq. 6 | Supply_b = Bldg_area_corrected × HVR_b |
-| Eq. 8 | SDMI = (Supply − Demand) / (0.5 × (Supply_max + Demand_max)) |
-| Eq. 13 | DirectLiNGAM structural equation model |
-| Eq. 15 | ΔC_k = (C_perturbed − C_baseline) / C_baseline |
-| Eqs. 16–17 | Sobol S1 and ST sensitivity indices |
-| Eq. 16 | Carbon_k = Σ(new_area_j × CI_j) / 5 — 5-year rolling window |
-| Eq. 18 | x_{c,k,t} = x_baseline × (1 + α × time_coeff(t)) — Policy ramp |
-
----
 
 ## Data
 
