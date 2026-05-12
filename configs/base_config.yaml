@@ -1,0 +1,39 @@
+# base_config.yaml
+# 基础路径与参数配置
+# 运行前请根据本机路径修改 data_root 和 temp_base
+
+data_root: "data"
+temp_base: "D:/arcpy_temp"        # 临时文件目录（建议使用空间充裕的磁盘）
+
+# ── 输入数据 ──────────────────────────────────────────────────────────────
+building_raw_dir: "data/raw/buildings_raw"       # 原始建筑 shapefile（预处理输入）
+building_base:    "data/processed/buildings"     # 预处理后建筑 GDB（HVR输入）
+boundary_base:    "data/raw/boundaries/province" # 各省边界 shapefile 目录
+county_boundary:  "data/raw/boundaries/county/county.shp"  # 含县区编码的全国边界
+
+# 每个文件夹下按年份存放文件，例如：
+#   data/raw/nightlight/2013/VNL_npp_2013_*.tif
+#   data/raw/poi/2013/gis_osm_pois_*.shp
+#   data/raw/roads/2013/gis_osm_roads_*.shp
+light_dir: "data/raw/nightlight"   # 夜间灯光文件夹（子目录按年份命名）
+poi_dir:   "data/raw/poi"          # POI 文件夹
+road_dir:  "data/raw/roads"        # 道路文件夹
+
+# 处理年份范围
+year_start: 2013
+year_end:   2023
+
+# ── 输出 ──────────────────────────────────────────────────────────────────
+output_base: "output/provinces"
+
+# ── 空间分析参数 ──────────────────────────────────────────────────────────
+cell_size: 10                      # 栅格分辨率（米）
+poi_search_radius: 650             # POI 核密度搜索半径（米）
+road_search_radius: 100            # 道路线密度搜索半径（米）
+
+# ── HVR 参数 ──────────────────────────────────────────────────────────────
+# 阈值 = mean + threshold_sigma * std  (论文 Eq. 3)
+threshold_sigma: 2
+ai_norm_min: 0.1
+ai_norm_max: 1.0
+outlier_sigma: 3.0     # 建筑面积异常值剔除倍数（Bldg_area 3σ原则）

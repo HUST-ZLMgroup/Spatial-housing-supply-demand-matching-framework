@@ -1,0 +1,62 @@
+# ssp_config.yaml
+# SSP 情景参数配置
+# 用于 XGBoost 预测的输入数据路径和碳强度动态调整参数
+
+# ── 通用 ───────────────────────────────────────────────────────────────────
+train_years:   [2013, 2023]    # 历史训练期
+predict_years: [2024, 2050]    # 未来预测期
+
+# ── SSP 情景路径（按情景切换 csv_dir 即可）──────────────────────────────────
+scenarios:
+  ssp1:
+    csv_dir:    "data/processed/features/ssp1"
+    label:      "SSP1-RCP2.6（可持续发展）"
+  ssp2:
+    csv_dir:    "data/processed/features/ssp2"
+    label:      "SSP2-RCP4.5（中间路径）"
+  ssp5:
+    csv_dir:    "data/processed/features/ssp5"
+    label:      "SSP5-RCP8.5（高排放）"
+
+# 每个 csv_dir 下的文件命名：
+#   data_1.csv  → 2013–2023 训练集
+#   data_2.csv  → 2024–2050 预测集
+
+# ── 各任务输出路径 ──────────────────────────────────────────────────────────
+demand_model_dir:    "output/models/demand"
+supply_model_dir:    "output/models/supply"
+new_area_model_dir:  "output/models/new_area"
+
+demand_result_dir:   "output/forecast/demand"
+supply_result_dir:   "output/forecast/supply"
+new_area_result_dir: "output/forecast/new_area"
+new_supply_dir:      "output/forecast/new_supply"   # new_supply{year}.tif
+carbon_output_dir:   "output/carbon"                 # carbon_{scenario}.csv
+carbon_rolling_window: 5                             # 论文 Eq.16 5年滚动窗口
+
+# ── 单位建筑面积建造碳排放强度（kgCO₂/m²）──────────────────────────────────
+# 已含材料生产排放 + 施工能源排放，逐情景逐节点预计算
+# 非节点年份在使用时做线性插值
+# 来源：论文补充材料 Supplementary Table（材料强度 × 排放因子加权）
+carbon_intensity:
+  years: [2020, 2025, 2030, 2035, 2040, 2045, 2050]
+  ssp1:  [502.1037375, 458.5658774, 412.4512823, 400.9534834, 378.7082488, 368.7131579, 357.7070138]
+  ssp2:  [502.1037375, 482.7798522, 469.5382931, 460.9387871, 450.765133,  443.1567752, 434.3226372]
+  ssp3:  [502.1037375, 482.998699,  469.9591812, 461.5458794, 451.5435112, 444.0923924, 435.402273 ]
+  ssp4:  [502.1037375, 482.0541773, 468.1517746, 458.9518954, 448.2342395, 440.1343992, 430.8576787]
+  ssp5:  [502.1037375, 482.6342483, 469.2589712, 460.5369055, 450.2511617, 442.5405336, 433.6133296]
+
+# ── XGBoost 通用参数 ────────────────────────────────────────────────────────
+n_folds:       5
+use_hyperopt:  false
+n_iter:        300
+use_log_x:     true
+log_eps:       1.0e-6
+n_jobs:        8
+random_state:  42
+
+causal_dir:              "output/causal"
+causal_base_dir:         "data/processed/causal"
+sensitivity_dir:         "output/sensitivity"
+optimization_output_dir: "output/optimization"
+city_name_csv:           "data/raw/city_name.csv"

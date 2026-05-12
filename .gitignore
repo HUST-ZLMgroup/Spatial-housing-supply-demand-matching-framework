@@ -1,0 +1,72 @@
+
+
+# ── 输出结果（可选上传示例，默认忽略）──────────────────────────────────────
+result/
+
+# ── 模型文件（pkl 体量大，不入库）───────────────────────────────────────────
+*.pkl
+*.joblib
+
+# ── ArcGIS / ArcPy 临时文件 ──────────────────────────────────────────────────
+*.gdb/
+*.lock
+*.atx
+*.gdbindexes
+*.gdbtable
+*.gdbtablx
+*.spx
+*.freelist
+*.horizon
+*.spx
+D:/arcpy_temp/
+
+# ArcGIS 栅格辅助文件
+*.tfw
+*.tif.aux.xml
+*.tif.ovr
+*.tif.xml
+*.ovr
+*.aux
+info/
+
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+
+# 虚拟环境
+.venv/
+venv/
+env/
+ENV/
+
+# egg / dist
+*.egg-info/
+dist/
+build/
+*.egg
+MANIFEST
+
+# ── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── IDE ──────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ── 日志与临时文件 ────────────────────────────────────────────────────────────
+*.log
+*.tmp
+*.bak
+*.orig
+
+# ── 敏感配置（含密钥、本机绝对路径的覆盖文件）──────────────────────────────
+configs/local_*.yaml
+.env
