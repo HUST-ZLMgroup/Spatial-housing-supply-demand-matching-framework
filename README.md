@@ -1,4 +1,4 @@
-# spatial housing supply-demand matching framework
+# Spatial housing supply-demand matching framework
 
 **Quantifying Housing Vacancy, Supply-Demand Mismatch, and Associated Carbon Emissions Across China Using Multi-Source Geospatial Data**
 
